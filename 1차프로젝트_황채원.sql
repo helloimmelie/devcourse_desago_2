@@ -1,6 +1,9 @@
 # 방문횟수분석
+
 # 1.1 방문 횟수 집계 , 1.2 매장별 방문 고객의 id 확인
+    
 ## 방문횟수별 고객수
+    
 SELECT
     sales_outlet_id,
     visit_count,
@@ -19,8 +22,13 @@ GROUP BY
     sales_outlet_id, visit_count
 ORDER BY
     sales_outlet_id, visit_count;
+
+
+
 #1.3 고객데이터 중복 확인
+    
 ## 같은 메일을 가지고 있는 고객 확인
+    
 SELECT
     c1.customer_email,
     COUNT(DISTINCT c1.customer_id) AS different_ids_count
@@ -34,10 +42,17 @@ HAVING
 SELECT *
 from customer
 where customer_email = 'Porter@pellentesque.gov';
-##############################################################################
+
+
+
+
+
 #매장별 고객 충성도 분석
+
 #2.1 매장별 고객 행동
+    
 ## 방문횟수 탑30 고객의 방문횟수 분석
+    
 WITH RankedCustomers AS (
     SELECT
         sr.sales_outlet_id,
@@ -63,8 +78,13 @@ WHERE
     rank1 <= 31
 ORDER BY
     sales_outlet_id, rank1;
+
+
+
 #2.2 매출비중분석
+    
 ## 방문을 많이한 고객들이 많이 구매한 product 매장별로 탑3
+    
 WITH RankedCustomers AS (
     SELECT
         sr.sales_outlet_id,
@@ -109,8 +129,13 @@ WHERE
     product_rank <= 4
 ORDER BY
     sales_outlet_id, customer_id, product_rank;
+
+
+
 ## 2.2 매출비중분석
+    
 ## 각 매장별 고객의 총 방문 수
+    
 SELECT
     sr.sales_outlet_id,
     COUNT(DISTINCT sr.customer_id) AS total_customers
@@ -120,7 +145,10 @@ GROUP BY
     sr.sales_outlet_id
 ORDER BY
     sr.sales_outlet_id;
+
+
 ## 파레토곡선용 매장별 방문횟수 순의 고객의 누적 매출
+
 WITH CustomerVisits AS (
     -- Step 1: Calculate distinct visits for each customer in each outlet (same time, same outlet = 1 visit)
     SELECT
@@ -170,8 +198,13 @@ FROM
     RankedCustomerSales
 ORDER BY
     sales_outlet_id, total_visits ASC;
+
+
+
 #2.3 충성고객의 구매패턴
+    
 ## 각 지점별로 재방문 고객들이 많이산 항목 탑4
+    
 select sales_outlet_id, product, total_quantity
 from rebuyrank4
 where customer_id = 0;
